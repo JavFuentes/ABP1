@@ -7,7 +7,7 @@ public class CompañiaSeguros {
 	
 	//Declaracion de variables	
 	private static String rut = "";
-	private static char digitoVerificador = '0';
+	private static String digitoVerificador = "";
 	private static String nombres = "";
 	private static String apellidos = "";
 	private static String telefono = "";
@@ -22,24 +22,24 @@ public class CompañiaSeguros {
 	
 	public static void main(String[] args) {	
 		
-		ingresaRut();
-		obtieneDV(rut);				
-		ingresaNombres();
-		ingresaApellidos();
-		ingresaTelefono();	
-		ingresaAFP();		
-		ingresaPrevision();
-		ingresaDireccion();
-		ingresaComuna();
-		ingresaEdad();
+		ingresarRut();
+		digitoVerificador = obtenerDV(rut);				
+		ingresarNombres();
+		ingresarApellidos();
+		ingresarTelefono();	
+		ingresarAFP();		
+		ingresarPrevision();
+		ingresarDireccion();
+		ingresarComuna();
+		ingresarEdad();
 				
-		imprimeRegistro();		
+		imprimirRegistro();		
 		}
 		
 		//Función que imprime el contenido de todas las variables ingresadas
-		private static void imprimeRegistro() {			
+		private static void imprimirRegistro() {			
 			System.out.println("-----------------------------------");				
-			System.out.println("Rut: " + rut + "-" + obtieneDV(rut));
+			System.out.println("Rut: " + rut + "-" + digitoVerificador);
 			System.out.println("Nombre: " + nombres + " " + apellidos);
 			System.out.println("Telefono: " + telefono);
 			System.out.println("AFP: " + afp);
@@ -55,7 +55,7 @@ public class CompañiaSeguros {
 			System.out.println("-----------------------------------");		
 		}
 		
-		private static void ingresaRut() {			
+		private static void ingresarRut() {			
 			System.out.println("Ingrese su rut sin puntos ni digito verificador: ");		
 			rut = sc.nextLine();
 			
@@ -67,23 +67,25 @@ public class CompañiaSeguros {
 		}
 		
 		//Función que retorna el digito verificador de un rut
-		public static char obtieneDV(String rut) {			
-			int suma = 0;
-			int factor = 2;
-			for (int i = rut.length() - 1; i > 0; i--) {
-				suma += (rut.charAt(i) * factor);
-			    if(factor < 7)
-			      	factor++;
-			    else
-			       	factor = 2;
-			    }
-		    int dv = 11 - (suma % 11);
-		    digitoVerificador = (dv == 11) ? '0' : (dv == 10) ? 'K' : (char)dv;
-			return digitoVerificador;
+		public static String obtenerDV(String rut) {			
+			 int suma = 0;
+			 int factor = 2;
+			 
+			 for (int i = rut.length() - 1; i >= 0; i--) {			 
+			        suma += Integer.valueOf(String.valueOf(rut.charAt(i))) * factor;		       
+			        if(factor < 7) {
+			        	factor++;		        	
+			        	}
+					else {
+					  	factor = 2;
+						}
+			        }
+			int dv = 11 - (suma % 11);
+			return (dv == 11) ? "0" : (dv == 10) ? "K" : String.valueOf(dv);			
 		}
 		
 		
-		private static void ingresaNombres() {		
+		private static void ingresarNombres() {		
 			System.out.println("Ingrese sus nombres: ");
 			nombres = sc.nextLine();	
 			//Se valida que el usuario no deje el campo vacio
@@ -93,7 +95,7 @@ public class CompañiaSeguros {
 			}
 		}
 		
-		private static void ingresaApellidos() {			
+		private static void ingresarApellidos() {			
 			System.out.println("Ingrese sus apellidos: ");
 			apellidos = sc.nextLine();
 			//Se valida que el usuario no deje el campo vacio
@@ -103,7 +105,7 @@ public class CompañiaSeguros {
 			}	
 		}
 		
-		private static void ingresaTelefono() {			
+		private static void ingresarTelefono() {			
 			System.out.println("Ingrese su telefono: ");
 			telefono = sc.nextLine();
 			//Se valida el largo de la cadena
@@ -113,7 +115,7 @@ public class CompañiaSeguros {
 			}
 		}
 		
-		private static void ingresaAFP() {			
+		private static void ingresarAFP() {			
 			System.out.println("Ingrese su AFP");
 			afp = sc.nextLine();
 			//Se valida que el usuario no deje el campo vacio
@@ -123,17 +125,21 @@ public class CompañiaSeguros {
 			}	
 		}
 		
-		private static void ingresaPrevision() {			
-			System.out.println("Seleccione su prevision: 1-Isapre 2-Fonasa");
+		private static void ingresarPrevision() {			
+			System.out.println("Seleccione su prevision: ");
+			System.out.println("1-Isapre");
+			System.out.println("2-Fonasa");
 			prevision = sc.nextLine();
 			//Se valida que se ingrese 1 o 2
 			while(!prevision.matches("[1-2]{1}")) {
-				System.out.println("Numero Invalido. Ingrese su prevision: 1-Isapre 2-Fonasa");
+				System.out.println("[Numero Invalido]\nIngrese su prevision: ");				
+				System.out.println("1-Isapre");
+				System.out.println("2-Fonasa");
 				prevision = sc.nextLine();
 			}	
 		}
 		
-		private static void ingresaDireccion() {			
+		private static void ingresarDireccion() {			
 			System.out.println("Ingrese su direccion: ");
 			direccion = sc.nextLine();	
 			//Se valida que el largo de la cadena no exceda el limite estblecido
@@ -143,7 +149,7 @@ public class CompañiaSeguros {
 			}		
 		}
 		
-		private static void ingresaComuna() {			
+		private static void ingresarComuna() {			
 			System.out.println("Ingrese su comuna: ");
 			comuna = sc.nextLine();
 			//Se valida que el usuario no deje el campo vacio
@@ -153,7 +159,7 @@ public class CompañiaSeguros {
 			}	
 		}
 		
-		public static void ingresaEdad() {					
+		public static void ingresarEdad() {					
 			System.out.println("Ingrese su edad: ");
 			edad = sc.nextLine();
 			//Se valida que la edad no exceda el limite
